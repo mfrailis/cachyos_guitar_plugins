@@ -1,0 +1,49 @@
+# CachyOS Real-Time Guitar Setup - .gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Build artifacts
+*.tar.gz
+*.zip
+*.7z
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+debug_report.txt
+
+# Wine prefix (personal configuration)
+# Uncomment if sharing repository with Wine data
+# ~/.wine/
+
+# Audio interface recordings
+*.wav
+*.mp3
+*.flac
+*.ogg
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# System
+.config/
+.cache/
+.local/
+
+# Don't ignore important files
+!.gitkeep
+!docs/assets/
