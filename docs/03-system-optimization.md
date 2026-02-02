@@ -52,7 +52,7 @@ echo -1 | sudo tee /sys/module/usbcore/parameters/autosuspend
 
 ### Make settings persist after a reboot
 
-The above settings will disappear after a reboot. To preserve them, use the `studio-mode.service` systemd service provided in the `scripts` folder. This service automatically applies all the above settings on boot.
+The settings above will be lost after a reboot. To make them persistent, use the `studio-mode.service` systemd service provided in the scripts folder. This service automatically applies all of the above settings at boot.
 
 To install it:
 
