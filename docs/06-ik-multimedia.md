@@ -272,7 +272,6 @@ You're now ready to:
 
 ## Additional Resources
 
-- [IK Multimedia Support](https://www.ikmultimedia.com/support/)
 - [Wine FAQ](https://wiki.winehq.org/FAQ)
 - [PipeWire Documentation](https://pipewire.org/)
 - [CachyOS Wiki](https://wiki.cachyos.org/)
