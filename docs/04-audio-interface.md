@@ -37,16 +37,6 @@ device.nick = "HD-Audio Generic"
 
 **Your audio interface will be one of these** (usually the most recognizable name, like "AXE I/O SOLO").
 
-### Finding Device Properties
-
-For more detailed information about your device:
-
-```bash
-pw-cli list-objects Device
-```
-
-This shows full device specifications including sample rates, channels, and available profiles.
-
 ## Step 3: Configure WirePlumber for Your Interface
 
 Create device-specific WirePlumber configuration:
@@ -214,6 +204,15 @@ If these match your configuration, you're set!
 | Built-in Audio | "HD-Audio Generic" or "HDA..." |
 
 If your interface isn't listed, connect it and run `pw-cli list-objects Device` again.
+
+## Step 9: WineASIO configuration
+Run `wineasio-settings` and configure the channels for your audio interface. For example, set 2 input channels and 4 output channels (adjust according to your specific hardware). Set the buffer size to 128 samples, as shown in the figure below.
+
+> **Note:** These settings may not always be used, as some applications override them with their own configuration.
+
+![WineASIO configuration](resources/wineasio_settings.png)
+
+
 
 ## Next Steps
 

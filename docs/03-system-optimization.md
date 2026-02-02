@@ -50,6 +50,20 @@ echo -1 | sudo tee /sys/module/usbcore/parameters/autosuspend
 - Audio interfaces are USB devices that need consistent power delivery
 - This prevents the OS from suspending your audio interface
 
+### Make settings persist after a reboot
+
+The above settings will disappear after a reboot. To preserve them, use the `studio-mode.service` systemd service provided in the `scripts` folder. This service automatically applies all the above settings on boot.
+
+To install it:
+
+```bash
+sudo cp scripts/studio-mode.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable studio-mode.service
+sudo systemctl start studio-mode.service
+```
+
+
 ## Step 2: Kernel Parameters for Preemption
 
 Full kernel preemption is critical for real-time performance.
@@ -164,6 +178,15 @@ Spectre/Meltdown Mitigations
 
 Proceed to [Audio Interface Configuration](04-audio-interface.md) to set up your audio hardware.
 
+## Alternative Solutions
+
+There are alternative methods to persist these settings (CPU scaling performance, SMT, swappiness, and USB autosuspend). The systemd service approach above is provided for simplicity and portability. In the scripts folder, I also provide an `apply-audio-tuning.sh` script that can be run on demand with sudo:
+
+```bash
+chmod +x scripts/apply-audio-tuning.sh
+sudo scripts/apply-audio-tuning.sh
+```
+
 ---
 
 ## Troubleshooting
@@ -171,11 +194,6 @@ Proceed to [Audio Interface Configuration](04-audio-interface.md) to set up your
 **Q: `rtcqs` shows FAIL for preemption**  
 A: Make sure you rebooted after running `grub-mkconfig`. Changes don't take effect until next boot.
 
-**Q: CPU doesn't stay at performance frequency**  
-A: Your CPU governor might be resetting. The performance mode from `cpupower` persists during the session but resets on reboot. You can make it permanent by:
-```bash
-sudo systemctl enable cpupower
-```
 
 **Q: Audio group membership not recognized**  
 A: You must log out completely and log back in. Session restart alone won't work. Try opening a new terminal to confirm: `groups $USER` should show "audio".

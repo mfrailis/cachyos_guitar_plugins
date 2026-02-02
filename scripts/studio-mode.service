@@ -1,0 +1,23 @@
+[Unit]
+Description=Studio Mode (low-latency audio optimizations)
+After=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# CPU governor: performance
+ExecStart=/usr/bin/cpupower frequency-set -g performance
+
+# Disable SMT
+ExecStart=/bin/sh -c 'echo off > /sys/devices/system/cpu/smt/control'
+
+# Reduce swappiness
+ExecStart=/usr/bin/sysctl -w vm.swappiness=10
+
+# Disable USB autosuspend
+ExecStart=/bin/sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
+
+[Install]
+WantedBy=multi-user.target
+

@@ -60,15 +60,6 @@ wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/IK\ Product\ Manager/IK\ Prod
 
 **Note**: This is useful if you want to create a launcher script or terminal alias.
 
-### Verify WineASIO is Available
-
-When IK Product Manager launches, check the settings:
-
-1. Go to **Settings** or **Preferences**
-2. Look for **Audio Driver** or **ASIO** settings
-3. You should see **WineASIO** available as an option
-
-![WineASIO Configuration](assets/wine_configuration_cachy.png)
 
 ## Step 4: Install Amplitube and Tonex
 
@@ -93,35 +84,7 @@ The installation typically goes to:
 - `~/.wine/drive_c/Program Files/IK Multimedia/TONEX/`
 - `~/.wine/drive_c/Program Files/IK Multimedia/Amplitube/`
 
-## Step 5: Configure WineASIO Settings
-
-Before running Amplitube or Tonex, configure the ASIO driver:
-
-```bash
-wineasio-settings
-```
-
-### WineASIO Configuration Window
-
-![WineASIO Settings](assets/winasio_resigter.png)
-
-### Recommended Settings
-
-Configure based on your audio interface:
-
-| Setting | Value | Notes |
-|---------|-------|-------|
-| **Input Channels** | 2 | Stereo input (match your interface) |
-| **Output Channels** | 4 | Stereo + extra (match your interface) |
-| **Buffer Size** | 128 samples | Matches PipeWire configuration |
-
-**Note**: Adjust input/output channels to match your audio interface specifications.
-
-### Apply Settings
-
-Click **Apply** to save the configuration.
-
-## Step 6: Run Tonex with Real-Time Priority
+## Step 5: Run Tonex with Real-Time Priority
 
 Tonex should be launched with real-time scheduling for optimal performance:
 
@@ -142,8 +105,8 @@ When Tonex starts:
 
 1. **Audio Driver Settings**:
    - Select **WineASIO** as the audio driver
-   - Set sample rate to **48000 Hz**
-   - Set buffer to **128 samples**
+   - The sample rate is automatically set to **48000 Hz**
+   - The buffer is automatically set to **128 samples**
 
 2. **Input/Output Configuration**:
    - Input: Select your audio interface input
@@ -151,6 +114,8 @@ When Tonex starts:
 
 3. **Save Settings**:
    - These persist for future launches
+
+![TONEX settings using WinASIO](resources/tonex_settings.png)
 
 ### Create a Launcher Script (Optional)
 
@@ -190,9 +155,12 @@ chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/Amplitube/Amplitub
 ### First Launch
 
 1. Configure **WineASIO** as audio driver
-2. Set sample rate to **48000 Hz**
-3. Set buffer to **128 samples**
-4. Select your audio interface inputs/outputs
+   - The sample rate is automatically set to **48000 Hz**
+   - The buffer is automatically set to **128 samples**
+2. Select your audio interface inputs/outputs
+
+
+![Amplitube settings using WinASIO](resources/amplitube_settings.png)
 
 ## Step 8: Using Amplitube and Tonex
 
@@ -225,11 +193,7 @@ With proper configuration:
 
 ## Running Amplitube as a Plugin
 
-Amplitube can also be used as an audio plugin (VST/AU) within other DAWs:
-
-- The VST will be installed to `~/.wine/drive_c/Program Files (x86)/Common Files/VST/`
-- Wine DAWs (like Reaper, Studio One via Wine) can load and use it
-- Similar real-time priority and ASIO configuration applies
+To be completed.
 
 ## Troubleshooting
 
@@ -272,12 +236,10 @@ Amplitube can also be used as an audio plugin (VST/AU) within other DAWs:
 3. **Run with real-time priority**: Use `chrt -f 70` prefix
 4. **Disable other effects**: Each effect adds processing time
 
-### WineASIO Settings Lost After Reboot
-
-This is normal. The `wineasio-settings` app stores configuration, but may reset. You can:
-1. Save configuration files manually
-2. Create a startup script to configure on launch
-3. Or reconfigure each session (usually quick once you know the settings)
+### The mouse cursor disappears (in Amplitube)
+- This can happen if you switch focus away from AmpliTube to another application, for example during AmpliTube startup.
+- As a workaround, quickly move the mouse pointer in circles until it reappears (often at a larger size). Then click on an 
+  AmpliTube menu or GUI element until the mouse cursor becomes visible again over the application.
 
 ## Performance Tips
 

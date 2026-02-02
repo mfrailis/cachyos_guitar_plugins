@@ -19,7 +19,7 @@ This opens the Wine configuration dialog and creates a `.wine` directory in your
 #### Application Tab
 - **Windows Version**: Select **Windows 11**
 
-This ensures compatibility with modern Windows applications like Amplitube and Tonex.
+This ensures compatibility with modern Windows applications like Amplitube and Tonex. For now, leaving it on Windows 10 also works fine.
 
 ## Step 2: Graphics Settings
 
@@ -28,10 +28,9 @@ While still in `winecfg`, switch to the **Graphics** tab:
 ![Graphics Tab Configuration](resources/wine_configuration_cachy_graphics.png)
 
 #### Recommended Settings
-- **Uncheck**: "Windows decorations" 
-  - This removes the window frame, giving better screen space and preventing conflicts with the audio plugin UI
+You can leave the default settings. However, on large screens, I prefer to increase the screen resolution to 120 dpi.
 
-- Leave other settings at defaults
+The "Emulate a virtual desktop" option may be useful if you have issues with the mouse cursor rendering over Wine applications. I leave it unchecked.
 
 Click **OK** to save and close.
 
@@ -82,10 +81,6 @@ You should see output confirming registration was successful.
 - **Better Performance**: Vulkan is more efficient than DirectX translation
 - **GPU Acceleration**: Uses your GPU for rendering the plugin UI
 - **Stability**: Tested with modern graphics cards
-
-### Why Disable Windows Decorations?
-- **Screen Space**: Maximizes usable area in the plugin window
-- **UI Conflicts**: Some audio plugins have rendering issues with window decorations
 
 ### Why ASIO?
 - **Professional Standard**: ASIO is the industry standard for low-latency audio on Windows

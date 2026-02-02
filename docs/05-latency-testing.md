@@ -25,7 +25,7 @@ Set up a loopback cable for testing:
    - Input: instrument input (1/4" jack)
    - Output: main stereo balanced output (XLR)
 
-![Audio Interface Loopback Setup](resources/Screenshot_20260201_014820.png)
+![Audio Interface Loopback Setup](resources/audiointerface_loopback_setup.jpg)
 
 ## Step 2: Start the Latency Measurement Tool
 
@@ -196,4 +196,4 @@ Once you've confirmed acceptable latency (< 12ms), proceed to [IK Multimedia Ins
 
 ## Video Demonstration
 
-See [Jack_delay_test.mp4](resources/jack_delay_test.mp4) for a step-by-step video walkthrough of the latency testing procedure.
+See [Jack_delay_test.mp4](resources/jack_delay_test.mp4) for a video showing the latency testing procedure.
