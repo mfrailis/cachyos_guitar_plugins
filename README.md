@@ -56,10 +56,6 @@ Each guide section includes clarifications and common issues. If you encounter p
 2. Connect guitar to interface input
 3. Connect interface output to speakers/headphones or loop-back cable for latency testing
 
-## Video Demo
-
-See [Jack_delay_test.mp4](./Jack_delay_test.mp4) for a demonstration of the latency testing procedure.
-
 ---
 
 **Last Updated**: February 2026  
