@@ -1,4 +1,4 @@
-# CachyOS Real-Time Guitar Setup: Amplitube & Tonex via Wine
+# CachyOS Real-Time Guitar Setup
 
 A comprehensive guide to configuring CachyOS for low-latency real-time guitar processing using IK Multimedia's Amplitube and Tonex through Wine.
 
