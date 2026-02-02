@@ -86,7 +86,12 @@ Once connected, audio flows through the loopback, and `jack_iodelay` measures th
 Watch the terminal where you started `jack_iodelay`. It will display:
 
 ```
-round trip delay = 7.000 milliseconds
+   329.752 frames      6.870 ms total roundtrip latency
+        extra loopback latency: 73 frames
+        use 36 for the backend arguments -I and -O
+   329.752 frames      6.870 ms total roundtrip latency
+        extra loopback latency: 73 frames
+        use 36 for the backend arguments -I and -O
 ```
 
 or similar. This is your **total latency**.
