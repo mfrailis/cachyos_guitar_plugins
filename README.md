@@ -27,7 +27,6 @@ The configuration targets latencies around **7ms roundtrip**, making it suitable
 - **Audio Interface**: USB audio interface with JACK support (tested with AXE I/O Solo)
 - **RAM**: 8GB minimum (16GB recommended)
 - **CPU**: Modern multi-core processor with frequency scaling support
-- **GPU**: Dedicated GPU recommended (tested with AMD)
 
 ## What You'll Learn
 
