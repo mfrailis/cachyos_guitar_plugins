@@ -7,7 +7,7 @@ This section configures CachyOS for optimal real-time performance. These setting
 Enable maximum CPU performance mode:
 
 ```bash
-sudo cpupower frequency-set -g performance
+sudo powerprofilesctl set performance
 ```
 
 **What this does:**
@@ -52,7 +52,7 @@ echo -1 | sudo tee /sys/module/usbcore/parameters/autosuspend
 
 ### Make settings persist after a reboot
 
-The settings above will be lost after a reboot. To make them persistent, use the `studio-mode.service` systemd service provided in the scripts folder. This service automatically applies all of the above settings at boot.
+The settings above will be lost after a reboot. To make them persistent, use the `studio-mode.service` systemd service provided in the `scripts` folder of this project. This service automatically applies all of the above settings at boot.
 
 To install it:
 
@@ -168,7 +168,7 @@ Spectre/Meltdown Mitigations
 
 | Change | Effect | Revert With |
 |--------|--------|-------------|
-| CPU performance mode | Lower latency | `sudo cpupower frequency-set -g schedutil` |
+| CPU performance mode | Lower latency | `sudo powerprofilesctl set performance` |
 | SMT disabled | More predictable | `echo on \| sudo tee /sys/devices/system/cpu/smt/control` |
 | Low swappiness | Prevents disk I/O delays | `sudo sysctl -w vm.swappiness=60` |
 | USB suspend off | Consistent USB power | `echo 2 \| sudo tee /sys/module/usbcore/parameters/autosuspend` |
@@ -193,7 +193,6 @@ sudo scripts/apply-audio-tuning.sh
 
 **Q: `rtcqs` shows FAIL for preemption**  
 A: Make sure you rebooted after running `grub-mkconfig`. Changes don't take effect until next boot.
-
 
 **Q: Audio group membership not recognized**  
 A: You must log out completely and log back in. Session restart alone won't work. Try opening a new terminal to confirm: `groups $USER` should show "audio".

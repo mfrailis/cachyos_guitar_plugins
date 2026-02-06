@@ -7,7 +7,7 @@ Handy command reference for common operations.
 ```bash
 # Full installation (copy & paste)
 sudo pacman -Syu
-sudo pacman -S pipewire-jack jack-example-tools qpwgraph wine-cachyos winetricks cpupower
+sudo pacman -S pipewire-jack jack-example-tools qpwgraph wine-cachyos winetricks
 paru -S rtcqs wineasio
 
 # Initial setup
@@ -21,7 +21,7 @@ wineasio-register
 
 ```bash
 # Performance mode
-sudo cpupower frequency-set -g performance
+sudo powerprofilesctl set performance
 
 # Disable SMT
 echo off | sudo tee /sys/devices/system/cpu/smt/control
@@ -97,6 +97,28 @@ chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/TONEX/TONEX.exe
 chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/Amplitube/Amplitube.exe
 ```
 
+## DAW & VST Plugins (Yabridge)
+
+```bash
+# Install Reaper and Yabridge
+sudo pacman -S reaper yabridge yabridgectl
+
+# Add VST3 plugin path
+yabridgectl add "$HOME/.wine/drive_c/Program Files/Common Files/VST3"
+
+# Sync plugins (creates bridged versions)
+yabridgectl sync
+
+# Check yabridge status
+yabridgectl status
+
+# Launch Reaper with real-time priority
+chrt -f 70 reaper
+
+# Force re-sync plugins
+yabridgectl sync --force
+```
+
 ## Diagnostic Commands
 
 ```bash
@@ -106,7 +128,7 @@ rtcqs
 # Monitor CPU usage
 top
 
-# Check kernel parameters
+# Check kernel parameters and cpu governor
 grep preempt /proc/cmdline
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
@@ -134,6 +156,7 @@ systemctl --user status wireplumber
 | `/etc/default/grub` | Kernel parameters (needs sudo) |
 | `/etc/security/limits.d/20-audio.conf` | Real-time priority limits |
 | `~/.wine/drive_c/` | Windows environment files |
+| `~/.vst3/yabridge/` | Bridged VST3 plugins for Linux DAWs |
 
 ## Debugging
 
@@ -158,10 +181,13 @@ rtcqs | head -10
 jack_iodelay
 
 # Check running audio processes
-ps aux | grep -E "tonex|amplitube|wine|pipewire" | grep -v grep
+ps aux | grep -E "tonex|amplitube|wine|pipewire|reaper" | grep -v grep
 
 # Monitor real-time
-watch -n 0.5 "ps aux | grep -E 'tonex|wine|jack' | grep -v grep"
+watch -n 0.5 "ps aux | grep -E 'tonex|wine|jack|reaper' | grep -v grep"
+
+# Check yabridge plugin status
+yabridgectl status
 ```
 
 ## Troubleshooting
@@ -171,7 +197,7 @@ watch -n 0.5 "ps aux | grep -E 'tonex|wine|jack' | grep -v grep"
 systemctl --user restart wireplumber pipewire pipewire-pulse
 
 # Reset CPU scaling
-sudo cpupower frequency-set -g schedutil
+sudo powerprofilesctl set performance
 
 # Re-enable SMT
 echo on | sudo tee /sys/devices/system/cpu/smt/control
@@ -183,6 +209,9 @@ sudo modprobe snd_usb_audio
 # Clear Wine prefix (nuclear option)
 rm -rf ~/.wine
 winecfg  # Recreates fresh prefix
+
+# Re-sync yabridge plugins
+yabridgectl sync --force
 ```
 
 ## Create Launcher Scripts
@@ -202,9 +231,17 @@ chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/Amplitube/Amplitub
 EOF
 chmod +x ~/launch_amplitube.sh
 
+# Reaper launcher
+cat > ~/launch_reaper.sh << 'EOF'
+#!/bin/bash
+chrt -f 70 reaper "$@"
+EOF
+chmod +x ~/launch_reaper.sh
+
 # Run them
 ~/launch_tonex.sh
 ~/launch_amplitube.sh
+~/launch_reaper.sh
 ```
 
 ## Performance Optimization (Advanced)
@@ -234,6 +271,7 @@ jack_iodelay             # Should show 5-8ms
 pw-cli list-objects Device | grep device.nick  # Should show interface
 ps aux | grep pipewire   # Should show running
 ps aux | grep wireplumber # Should show running
+yabridgectl status       # Should show synced plugins
 ```
 
 ---
@@ -247,10 +285,14 @@ alias testlatency="jack_iodelay"
 alias ik-manager="wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/IK\ Product\ Manager/IK\ Product\ Manager.exe"
 alias tonex="chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/TONEX/TONEX.exe"
 alias amplitube="chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/Amplitube/Amplitube.exe"
+alias reaper="chrt -f 70 /usr/bin/reaper"
+alias yab-sync="yabridgectl sync"
 
 # Then use:
 # rtcheck
 # testlatency
 # tonex
 # amplitube
+# reaper
+# yab-sync
 ```

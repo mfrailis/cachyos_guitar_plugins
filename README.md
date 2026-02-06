@@ -4,11 +4,12 @@ A comprehensive guide to configuring CachyOS for low-latency real-time guitar pr
 
 ## Overview
 
-This guide walks you through setting up a professional-grade real-time guitar processing environment on CachyOS using:
+This guide walks you through setting up a real-time guitar processing environment on CachyOS using:
+- **PipeWire/JACK** - Professional audio routing
+- **Wine** - Windows application compatibility layer
 - **Amplitube** - Real-time guitar amplifier and effects modeling
 - **Tonex** - Tone capture and modeling technology
-- **Wine** - Windows application compatibility layer
-- **PipeWire/JACK** - Professional audio routing
+- **Reaper + Yabridge** - DAW with Windows VST plugin support
 
 The configuration targets latencies around **7ms roundtrip**, making it suitable for real-time guitar playing without noticeable delay.
 
@@ -20,11 +21,13 @@ The configuration targets latencies around **7ms roundtrip**, making it suitable
 4. [Audio Interface Configuration](docs/04-audio-interface.md)
 5. [Latency Testing](docs/05-latency-testing.md)
 6. [IK Multimedia Installation](docs/06-ik-multimedia.md)
+7. [DAW & VST Plugins](docs/07-daw-vst-plugins.md)
 
 ## System Requirements
 
 - **OS**: CachyOS (any recent version)
-- **Audio Interface**: USB audio interface with JACK support (tested with AXE I/O Solo)
+- **Audio Interface**: USB audio interface with low latency 
+                       and compatible with Linux (tested with AXE I/O Solo)
 - **RAM**: 8GB minimum (16GB recommended)
 - **CPU**: Modern multi-core processor with frequency scaling support
 
@@ -35,10 +38,11 @@ The configuration targets latencies around **7ms roundtrip**, making it suitable
 - Configuring PipeWire/WirePlumber for low-latency audio
 - Measuring and optimizing system latency
 - Installing and running Windows audio software on Linux
+- Using Windows VST plugins in a Linux DAW with Yabridge
 
 ## Expected Results
 
-- **Roundtrip Latency**: ~7ms (human imperceptible for guitar playing)
+- **Roundtrip Latency**: ~7ms (virtually imperceptible for guitar playing)
 - **Buffer Size**: 128 samples at 48kHz
 - **Stability**: Stable real-time performance without dropouts
 

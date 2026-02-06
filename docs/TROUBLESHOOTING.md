@@ -321,6 +321,57 @@ Check each output against this guide's requirements.
 
 ---
 
+## Yabridge / DAW Issues
+
+### Plugins Don't Appear in Reaper
+
+**Solutions**:
+1. Verify yabridge sync completed:
+   ```bash
+   yabridgectl status
+   ```
+2. Check the plugin path in Reaper preferences (Options → Preferences → Plug-ins → VST)
+3. Add `~/.vst3/yabridge` to VST paths
+4. Rescan plugins in Reaper
+
+### Plugin Window Doesn't Open
+
+**Solutions**:
+1. Check Wine is working: `wine --version`
+2. Try running the standalone version first to verify it works
+3. Check for Wine errors in terminal when loading plugin
+
+### yabridge sync Fails
+
+**Solutions**:
+1. Ensure plugins are installed:
+   ```bash
+   ls ~/.wine/drive_c/Program\ Files/Common\ Files/VST3/
+   ```
+2. Reinstall plugins via IK Product Manager
+3. Force re-sync:
+   ```bash
+   yabridgectl sync --force
+   ```
+
+### High Latency in Reaper
+
+**Solutions**:
+1. Confirm JACK audio system is selected in Reaper preferences
+2. Verify block size is 128 samples
+3. Disable any plugin latency compensation if not needed
+4. Launch Reaper with real-time priority: `chrt -f 70 reaper`
+
+### Audio Crackling in Reaper
+
+**Solutions**:
+1. Ensure Reaper is running with real-time priority
+2. Verify buffer size matches PipeWire config (128 samples)
+3. Check CPU usage - close unnecessary applications
+4. Try increasing buffer to 256 if issues persist
+
+---
+
 ## Still Having Issues?
 
 ### Gather System Information
@@ -360,6 +411,7 @@ Include this when seeking help on forums or GitHub issues.
 
 - **CachyOS Forum**: https://forum.cachyos.org/
 - **Wine FAQ**: https://wiki.winehq.org/FAQ
+- **Yabridge GitHub**: https://github.com/robbert-vdh/yabridge
 - **GitHub Issues**: Create an issue with your debug report
 - **Reddit**: r/linux_gaming, r/CachyOS
 

@@ -17,13 +17,10 @@ This section explains how to measure your system's actual audio latency using th
 
 Set up a loopback cable for testing:
 
-1. **Connect a guitar cable** from your audio interface's **instrument input** to the interface's **stereo output**
+**Connect a guitar cable** from your audio interface's **instrument input** to the **left channel** of the interface's **stereo output**
    - This creates a direct hardware feedback path
    - The cable physically loops the audio back
 
-2. Or, if you have balanced outputs:
-   - Input: instrument input (1/4" jack)
-   - Output: main stereo balanced output (XLR)
 
 ![Audio Interface Loopback Setup](resources/audiointerface_loopback_setup.jpg)
 
@@ -38,9 +35,11 @@ jack_iodelay
 You should see output like:
 
 ```
-jack_iodelay started
-Signal below the noise floor
-Waiting for signal
+new capture latency: [0, 0]
+new playback latency: [0, 0]
+Signal below threshold...
+Signal below threshold...
+...
 ```
 
 The tool is now listening for audio and will measure the delay.
@@ -79,6 +78,8 @@ In qpwgraph:
 Guitar Input → Interface Capture → jack_iodelay → Interface Playback → Speakers/Headphones
 ```
 
+See [Jack_delay_test.mp4](resources/jack_delay_test.mp4) for a video showing the latency testing procedure.
+
 ## Step 4: Read the Latency Measurement
 
 Once connected, audio flows through the loopback, and `jack_iodelay` measures the round-trip delay.
@@ -100,7 +101,7 @@ or similar. This is your **total latency**.
 
 For **128 samples at 48kHz**:
 - Expected latency ≈ 2.67ms per direction × 2 directions ≈ **5.34ms minimum**
-- Interface/JACK overhead typically adds ≈ 1-2ms
+- AD/DA conversion,USB bus jitter and driver buffers typically add ≈ 1-3ms
 - **Target: 6-8ms round-trip**
 
 ## Step 5: Analyze Results
@@ -130,7 +131,7 @@ After testing, stop `jack_iodelay`:
 
 Press **Ctrl+C** in the terminal where it's running.
 
-In qpwgraph, disconnect the measurement connections before using the interface for actual audio.
+In qpwgraph, the measurement connections should desappear.
 
 
 ## Troubleshooting High Latency
@@ -154,7 +155,7 @@ In qpwgraph, disconnect the measurement connections before using the interface f
 
 4. **CPU throttling**
    - Verify: `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` should show "performance"
-   - Re-run: `sudo cpupower frequency-set -g performance`
+   - Re-run: `sudo powerprofilesctl set performance`
 
 ### No Signal in jack_iodelay
 
@@ -176,7 +177,6 @@ If jack_iodelay shows varying values:
 
 1. **CPU load fluctuation**
    - Close other applications
-   - Kill background processes: `killall firefox chromium`
    - Check `top` during measurement
 
 2. **Interface dropout**
@@ -199,6 +199,4 @@ Once you've confirmed acceptable latency (< 12ms), proceed to [IK Multimedia Ins
 
 ---
 
-## Video Demonstration
 
-See [Jack_delay_test.mp4](resources/jack_delay_test.mp4) for a video showing the latency testing procedure.

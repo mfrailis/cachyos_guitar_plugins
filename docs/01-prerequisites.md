@@ -13,6 +13,8 @@ If you haven't installed CachyOS yet, you'll need to complete the installation f
 **Video Tutorial:**
 - [CachyOS Installation Video Guide](https://www.youtube.com/watch?v=rJcrb7vxoCo) - Visual walkthrough of the installation process
 
+If possible, during the installation, select **GRUB** as bootloader.
+
 ### Quick Overview
 
 The CachyOS installer provides:

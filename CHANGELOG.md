@@ -1,5 +1,21 @@
 ## Changelog
 
+### Version 1.1 - DAW Integration (February 2026)
+
+**New Features:**
+- Added DAW and VST plugin guide ([07-daw-vst-plugins.md](docs/07-daw-vst-plugins.md))
+- Reaper installation and configuration
+- Yabridge setup for Windows VST3 plugin bridging
+- Amplitube and TONEX as VST3 plugins in Linux DAW
+
+**Documentation Updates:**
+- Updated README with DAW section reference
+- Updated INDEX with new section and adjusted time estimates
+- Added yabridge commands to QUICK_REFERENCE
+- Added yabridge/DAW troubleshooting to TROUBLESHOOTING guide
+
+---
+
 ### Version 1.0 - Initial Release (February 2026)
 
 **Features:**
@@ -43,5 +59,7 @@ Please open a GitHub issue or pull request!
 
 ### Future Improvements
 
-- [ ] DAW integration guide (Reaper, etc.)
-- [ ] VST plugin usage in Linux DAWs
+- [x] DAW integration guide (Reaper, etc.)
+- [x] VST plugin usage in Linux DAWs
+- [ ] Additional DAW guides (Ardour, Bitwig)
+- [ ] Native Linux plugin alternatives

@@ -1,6 +1,6 @@
 # IK Multimedia Installation: Amplitube & Tonex
 
-This final section covers downloading, installing, and running Amplitube and Tonex through Wine.
+This section covers downloading, installing, and running Amplitube and Tonex through Wine.
 
 ## Step 1: Download IK Product Manager
 
@@ -78,7 +78,7 @@ This is identical to Windows:
 2. Click "Install"
 3. Choose installation location (default is fine)
 4. Wait for download and installation
-5. Product appears in your "My Products" list
+5. Product appears as installed in the IK Product Manager software list
 
 The installation typically goes to:
 - `~/.wine/drive_c/Program Files/IK Multimedia/TONEX/`
@@ -89,11 +89,13 @@ The installation typically goes to:
 Tonex should be launched with real-time scheduling for optimal performance:
 
 ```bash
-chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/TONEX/TONEX.exe
+WINEDEBUG=-all chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/TONEX/TONEX.exe
 ```
 
 ### What This Command Does
 
+- **`WINEDEBUG=-all`**: Disables all Wine debug output (reduces overhead 
+                        and cleans up terminal output)
 - **`chrt -f 70`**: Runs the program with FIFO real-time scheduling at priority 70
 - **-f**: FIFO scheduling (strict real-time)
 - **70**: Priority level (0-99, where 99 is highest)
@@ -129,7 +131,7 @@ Add:
 
 ```bash
 #!/bin/bash
-chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/TONEX/TONEX.exe
+WINEDEBUG=-all chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/TONEX/TONEX.exe
 ```
 
 Save and make executable:
@@ -149,7 +151,7 @@ Then launch with:
 Amplitube can be launched similarly:
 
 ```bash
-chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/Amplitube/Amplitube.exe
+WINEDEBUG=-all chrt -f 70 wine ~/.wine/drive_c/Program\ Files/IK\ Multimedia/Amplitube/Amplitube.exe
 ```
 
 ### First Launch
@@ -191,9 +193,15 @@ With proper configuration:
 3. Check `jack_iodelay` measurement
 4. Close other applications to reduce CPU load
 
-## Running Amplitube as a Plugin
+## Next Steps
 
-To be completed.
+You're now ready to:
+- Create presets in Amplitube/Tonex
+- Record your playing with a DAW
+- Use Tonex's capture feature to model amplifiers
+- Experiment with different effects combinations
+
+**Want to use Amplitube/TONEX as plugins in a DAW?** Proceed to [DAW & VST Plugins](07-daw-vst-plugins.md) to set up Reaper with Yabridge.
 
 ## Troubleshooting
 
@@ -210,10 +218,10 @@ To be completed.
 
 ### Audio Crackling/Pops
 
-1. **Increase buffer size**: Try 256 samples instead of 128
-2. **Lower input signal**: Reduce gain at interface
+1. **Run with real-time priority**: Use `chrt -f 70` prefix
+2. **Increase buffer size**: Try 256 samples instead of 128
 3. **Close applications**: Too much CPU load
-4. **Check real-time**: Run `rtcqs` to verify configuration
+4. **Verify real-time configuration**: Run `rtcqs` to check your system's real-time settings
 
 ### No Audio Input
 
@@ -231,15 +239,13 @@ To be completed.
 
 ### High Latency (> 12ms)
 
-1. **Verify buffer settings**: Should be 128 samples at 48kHz
+1. **Verify buffer settings**: Should be 128 samples at 48kHz or less
 2. **Check CPU load**: `top` - should not exceed 85%
-3. **Run with real-time priority**: Use `chrt -f 70` prefix
-4. **Disable other effects**: Each effect adds processing time
+3. **Disable other effects**: Each effect adds processing time
 
-### The mouse cursor disappears (in Amplitube)
+### The mouse cursor disappears (in Amplitube or TONEX)
 - This can happen if you switch focus away from AmpliTube to another application, for example during AmpliTube startup.
-- As a workaround, quickly move the mouse pointer in circles until it reappears (often at a larger size). Then click on an 
-  AmpliTube menu or GUI element until the mouse cursor becomes visible again over the application.
+- As a workaround, quickly move the mouse pointer in circles until it reappears (often at a larger size). Then click on an AmpliTube menu or GUI element until the mouse cursor becomes visible again over the application.
 
 ## Performance Tips
 
@@ -262,32 +268,4 @@ To be completed.
 - **256 samples**: Better stability, ~5ms more latency
 - **512 samples**: Very stable but ~10ms more latency
 
-## Next Steps
-
-You're now ready to:
-- Create presets in Amplitube/Tonex
-- Record your playing with a DAW
-- Use Tonex's capture feature to model amplifiers
-- Experiment with different effects combinations
-
-## Additional Resources
-
-- [Wine FAQ](https://wiki.winehq.org/FAQ)
-- [PipeWire Documentation](https://pipewire.org/)
-- [CachyOS Wiki](https://wiki.cachyos.org/)
-
 ---
-
-## Summary
-
-You now have a fully configured real-time guitar processing environment on CachyOS featuring:
-
-✓ Wine with Windows 11 environment  
-✓ DXVK for GPU-accelerated graphics  
-✓ WineASIO for low-latency audio  
-✓ PipeWire with real-time JACK compatibility  
-✓ Optimized kernel for real-time performance  
-✓ Low-latency audio interface routing (< 8ms)  
-✓ IK Multimedia Amplitube & Tonex installed and running  
-
-**Happy playing! 🎸**

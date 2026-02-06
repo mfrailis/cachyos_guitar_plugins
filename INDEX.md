@@ -18,60 +18,50 @@ This repository contains comprehensive documentation for setting up Amplitube an
    - System requirements
    - Package installation
    - Dependency verification
-   - ~15 minutes
 
 2. **[Wine & DXVK Setup](docs/02-wine-setup.md)**
    - Creating Windows environment
    - Installing DXVK (GPU acceleration)
    - Registering WineASIO
-   - ~10 minutes
 
 3. **[System Optimization](docs/03-system-optimization.md)**
    - CPU performance tuning
    - Kernel parameter configuration
    - Real-time priority setup
-   - ~20 minutes (includes reboot)
 
 4. **[Audio Interface Configuration](docs/04-audio-interface.md)**
    - PipeWire/WirePlumber setup
    - Audio routing configuration
    - Profile optimization
-   - ~15 minutes
 
 5. **[Latency Testing](docs/05-latency-testing.md)**
    - Measuring system latency
    - Loopback cable setup
    - Performance verification
-   - ~10 minutes
 
 6. **[IK Multimedia Installation](docs/06-ik-multimedia.md)**
    - Downloading IK Product Manager
    - Installing Amplitube & Tonex
    - Initial configuration
    - Launching applications
-   - ~20 minutes
+
+7. **[DAW & VST Plugins](docs/07-daw-vst-plugins.md)**
+   - Installing Reaper DAW
+   - Configuring Yabridge for Windows VST plugins
+   - Loading Amplitube/TONEX as VST3 in Reaper
 
 ### Support & Reference
 
 - **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Problem solving guide
 - **[CHANGELOG.md](CHANGELOG.md)** - Version history and updates
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute improvements
 - **[LICENSE.md](LICENSE.md)** - MIT License
 
 ### Media Assets
 
-- **[docs/assets/](docs/assets/)** - Screenshots and video demonstrations
-  - `Jack_delay_test.mp4` - Latency testing video walkthrough
-  - `Screenshot_*.png` - Configuration screenshots
-  - `wine_configuration_*.png` - Wine setup images
-  - `winasio_*.png` - WineASIO setup
+- **[docs/resources/](docs/resources/)** - Screenshots and video demonstrations
+  - `jack_delay_test.mp4` - Latency testing short video demonstration
+  - \*.png - various configuration screenshots
 
----
-
-## ⏱️ Total Setup Time
-
-- **First-time setup**: 60-90 minutes (including reboots and testing)
-- **Subsequent uses**: < 2 minutes to launch applications
 
 ---
 
@@ -84,6 +74,7 @@ After following this guide:
 ✓ Professional-grade guitar effects and modeling  
 ✓ Stable, dropout-free operation  
 ✓ Optimized system for real-time audio workloads  
+✓ Windows VST plugins working in Linux DAW (Reaper)  
 
 ---
 
@@ -95,6 +86,7 @@ After following this guide:
 - **Just want commands?** Go to [QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)
 - **Troubleshooting?** Check [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 - **Step-by-step?** Follow [docs/01-prerequisites.md](docs/01-prerequisites.md)
+- **DAW setup?** Jump to [docs/07-daw-vst-plugins.md](docs/07-daw-vst-plugins.md)
 - **Already setup, need clarification?** Specific section numbers above
 
 ---
@@ -104,9 +96,9 @@ After following this guide:
 - **OS**: CachyOS (Arch-based Linux)
 - **CPU**: Modern multi-core (Intel/AMD)
 - **RAM**: 8GB+ (16GB recommended)
-- **GPU**: Dedicated GPU preferred
-- **Audio Interface**: USB interface with JACK support
-- **Storage**: 10GB free space for applications
+- **GPU**: integrated or discrete GPU desired
+- **Audio Interface**: USB interface with low latency and compatible with Linux
+- **Storage**: at leats 80GB of free space
 
 ---
 
@@ -127,34 +119,8 @@ After following this guide:
 
 ```bash
 # Copy the commands from QUICK_REFERENCE.md installation section
-# Takes about 60-90 minutes including configuration and testing
 # See TROUBLESHOOTING.md if anything breaks
 ```
-
----
-
-## 🤝 Contributing
-
-Found an issue, have a question, or want to improve this guide?
-
-1. **Report a problem**: Open a GitHub issue
-2. **Suggest improvements**: Submit a pull request
-3. **Test on new hardware**: Share your results
-4. **Improve documentation**: Clarifications welcome
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
----
-
-## 📞 Support
-
-- **CachyOS Forum**: https://forum.cachyos.org/
-- **GitHub Issues**: Open an issue in this repository
-- **Reddit**: r/CachyOS, r/linux_gaming
-- **Wine Wiki**: https://wiki.winehq.org/
-
-Include your `rtcqs` output and audio interface model when asking for help.
-
 ---
 
 ## 📜 License

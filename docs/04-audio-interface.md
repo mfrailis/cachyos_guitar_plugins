@@ -20,7 +20,7 @@ mkdir -p $HOME/.config/pipewire/jack.conf.d
 
 ## Step 2: Identify Your Audio Interface
 
-Connect your USB audio interface and identify its name:
+Connect your USB audio interface and identify its name and node paths:
 
 ```bash
 pw-cli list-objects Device | grep device.nick
@@ -37,6 +37,27 @@ device.nick = "HD-Audio Generic"
 
 **Your audio interface will be one of these** (usually the most recognizable name, like "AXE I/O SOLO").
 
+### Find the Node Name
+
+To apply settings to all nodes (inputs and outputs) of your interface, find the `node.name`:
+
+```bash
+pw-cli ls Node | grep "node.name"
+```
+
+### Example Output
+
+```
+node.name = "Dummy-Driver"
+node.name = "Freewheel-Driver"
+node.name = "Midi-Bridge"
+node.name = "bluez_midi.server"
+node.name = "alsa_output.usb-IK_Multimedia_AXE_IO_SOLO_XXXXXXX-XX.pro-output-0"
+node.name = "alsa_input.usb-IK_Multimedia_AXE_IO_SOLO_XXXXXXX-XX.pro-input-0"
+```
+
+**Identify the pattern**: Look for `node.name` entries starting with `alsa_output` or `alsa_input` that contain your interface name. In this example, the pattern is `~alsa_*.usb-IK_Multimedia_AXE_IO_SOLO*` (matching both input and output nodes).
+
 ## Step 3: Configure WirePlumber for Your Interface
 
 Create device-specific WirePlumber configuration:
@@ -45,22 +66,26 @@ Create device-specific WirePlumber configuration:
 nano $HOME/.config/wireplumber/wireplumber.conf.d/90-my_audio_interface.conf
 ```
 
-Add this configuration, **replacing "AXE I/O Solo" with your device's `device.nick`**:
+Add this configuration, **replacing the `node.name` pattern with your device's name pattern**:
 
 ```ini
 monitor.alsa.rules = [
- {
-   matches = [
-     { device.nick = "AXE I/O Solo" }
-   ]
-   actions = {
-     update-props = {
-       api.alsa.period-size = 128
-       api.alsa.period-num  = 3
-       audio.rate = 48000
-     }
-   }
- }
+  {
+    matches = [
+      { node.name = "~alsa_*.usb-IK_Multimedia_AXE_IO_SOLO*" },
+    ]
+    actions = {
+      update-props = {
+        api.alsa.period-size = 128
+        api.alsa.headroom = 0
+        api.alsa.period-num = 3
+        audio.rate = 48000
+        node.latency = 128/48000
+        node.max-latency = 128/48000
+        api.alsa.disable-batch = true
+      }
+    }
+  }
 ]
 ```
 
@@ -68,10 +93,32 @@ monitor.alsa.rules = [
 
 | Parameter | Value | Why |
 |-----------|-------|-----|
-| `device.nick` | Your device name | Identifies which hardware to configure |
+| `node.name` | `~alsa_*.usb-IK_Multimedia_AXE_IO_SOLO*` | Matches all nodes (input/output) of your interface using a wildcard pattern. The `~` prefix enables glob matching. |
 | `api.alsa.period-size` | 128 | Buffer size in samples (lower = lower latency but more CPU) |
-| `api.alsa.period-num` | 3 | Number of periods (3 is optimal for stability) |
+| `api.alsa.headroom` | 0 | Extra buffer headroom in samples (0 = minimum latency) |
+| `api.alsa.period-num` | 2 | Number of periods (2 = minimum for stable operation) |
 | `audio.rate` | 48000 | Sample rate in Hz (48kHz is professional standard) |
+| `node.latency` | 128/48000 | Target latency = 128 samples at 48kHz = 2.67ms |
+| `node.max-latency` | 128/48000 | Maximum allowed latency (locks latency to target) |
+| `api.alsa.disable-batch` | true | Disables batch mode for lower latency (may increase CPU usage) |
+
+### Deriving the Pattern for Other Interfaces
+
+1. Run `pw-cli ls Node | grep "node.name"`
+2. Find lines starting with `alsa_output` or `alsa_input` containing your interface name
+3. Identify the unique part of the name (e.g., manufacturer and model)
+4. Create a pattern: `~alsa_*.<unique-identifier>*`
+   - `~` enables glob matching
+   - `alsa_*` matches both `alsa_output` and `alsa_input`
+   - `*` at the end matches any suffix
+
+**Common patterns:**
+| Device | node.name pattern |
+|--------|-------------------|
+| AXE I/O Solo | `~alsa_*.usb-IK_Multimedia_AXE_IO_SOLO*` |
+| Focusrite Scarlett | `~alsa_*.usb-Focusrite_Scarlett*` |
+| MOTU Audio | `~alsa_*.usb-MOTU*` |
+| Generic USB Audio | `~alsa_*.usb-*` |
 
 ## Step 4: Configure PipeWire Real-Time Settings
 
@@ -85,14 +132,16 @@ Add:
 
 ```ini
 context.properties = {
-   default.clock.rate          = 48000
-   default.clock.quantum       = 128
-   default.clock.min-quantum   = 128
-   default.clock.max-quantum   = 128
+    default.clock.rate          = 48000
+    default.clock.allowed-rates = [ 48000 ]
+    default.clock.quantum       = 128
+    default.clock.min-quantum   = 128
+    default.clock.max-quantum   = 128
+    default.clock.quantum-limit = 128
 
-   # Real-time tuning
-   realtime.priority           = 88
-   realtime.cpu-load.threshold = 0.85
+    # Real-time tuning
+    realtime.priority           = 88
+    realtime.cpu-load.threshold = 0.85
 }
 ```
 
@@ -100,11 +149,14 @@ context.properties = {
 
 | Parameter | Value | Why |
 |-----------|-------|-----|
-| `clock.rate` | 48000 | Global sample rate (matches interface) |
-| `clock.quantum` | 128 | Buffer size for PipeWire graph (matches interface) |
-| `min/max-quantum` | 128 | Lock quantum size (no dynamic changes) |
+| `default.clock.rate` | 48000 | Global sample rate (matches interface) |
+| `default.clock.allowed-rates` | [ 48000 ] | Restricts allowed sample rates to prevent automatic switching |
+| `default.clock.quantum` | 128 | Processing quantum (buffer size, in frames) used by the PipeWire audio graph |
+| `default.clock.min-quantum` | 128 | Minimum quantum size (prevents going lower) |
+| `default.clock.max-quantum` | 128 | Maximum quantum size (prevents going higher) |
+| `default.clock.quantum-limit` | 128 | Hard limit on quantum size (locks to target) |
 | `realtime.priority` | 88 | Real-time scheduling priority (high but not maximum) |
-| `cpu-load.threshold` | 0.85 | Alert if CPU usage exceeds 85% |
+| `realtime.cpu-load.threshold` | 0.85 | Alert if CPU usage exceeds 85% |
 
 ## Step 5: Configure JACK Compatibility Settings
 
@@ -237,7 +289,7 @@ A: Ensure you're editing files in `$HOME/.config/` (not `/etc/`) and ran the res
 
 **Q: Audio interface not detected at all**  
 A: 
-1. Check connection: `lsusb | grep -i audio`
+1. Check connection: `lsusb -v 2>/dev/null | grep -E "idProduct|bInterfaceClass" | grep -B2 "Audio"`
 2. Load ALSA kernel module: `sudo modprobe snd_usb_audio`
 3. Restart PipeWire: `systemctl --user restart wireplumber pipewire`
 

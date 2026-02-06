@@ -5,7 +5,7 @@ echo "Applying audio performance tuning..."
 
 # CPU performance scaling
 echo "- Setting CPU governor to performance..."
-cpupower frequency-set -g performance
+powerprofilesctl set performance
 
 # Disable SMT
 echo "- Disabling SMT..."
