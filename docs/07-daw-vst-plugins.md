@@ -32,7 +32,7 @@ cd reaper_linux_x86_64
 
 Yabridge allows Windows VST2/VST3 plugins to run in Linux DAWs.
 
-### Install from AUR
+### Install from CachyOS Repository (Recommended)
 
 ```bash
 sudo pacman -S yabridge yabridgectl
