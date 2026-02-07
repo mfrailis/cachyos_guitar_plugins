@@ -8,7 +8,7 @@ This guide walks you through setting up a real-time guitar processing environmen
 - **PipeWire/JACK** - Professional audio routing
 - **Wine** - Windows application compatibility layer
 - **Amplitube** - Real-time guitar amplifier and effects modeling
-- **Tonex** - Tone capture and modeling technology
+- **Tonex** - Tone capture technology
 - **Reaper + Yabridge** - DAW with Windows VST plugin support
 
 The configuration targets latencies around **7ms roundtrip**, making it suitable for real-time guitar playing without noticeable delay.
