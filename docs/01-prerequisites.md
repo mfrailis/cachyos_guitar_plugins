@@ -31,7 +31,7 @@ The commands in this tutorial require a Linux terminal. On CachyOS with KDE, the
 
 Before you begin, make sure you have administrative access via `sudo` and a working internet connection.
 
-You can copy commands with **Ctrl+C** and paste them into the termina (with **Ctrl+Shift+V**).
+You can copy commands with **Ctrl+C** and paste them into the terminal (with **Ctrl+Shift+V**).
 
 First, ensure your CachyOS system is up to date:
 
