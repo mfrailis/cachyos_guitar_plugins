@@ -146,7 +146,7 @@ winecfg
 
 1. **Verify interface is detecting signal**:
    ```bash
-   qpwgraph
+   patchance
    ```
    Watch the interface input meter while plugging guitar in
 

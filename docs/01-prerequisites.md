@@ -57,7 +57,8 @@ sudo pacman -S pipewire-jack \
 If prompted about conflicting packages:
 
 ```
-:: pipewire-jack-1:1.4.10-1.1 and jack-0.126.0-6 are in conflict. Remove jack? [y/N]
+:: pipewire-jack-1:1.4.10-2.1 and jack-0.126.0-6 are in conflict. Remove jack? [y/N]
+:: wine-cachyos-2:10.0.20260203-1 and wine-11.2-1.1 are in conflict. Remove wine? [y/N]
 ```
 
 **Answer: `y`** - We're using PipeWire's JACK compatibility, not standalone JACK.
@@ -76,22 +77,37 @@ If prompted about conflicting packages:
 
 ## Step 3: Install Additional Audio Tools
 
-Install WineASIO and real-time configuration tool:
+Install WineASIO, real-time configuration tool, and patchance:
 
 ```bash
 paru -S rtcqs \
-        wineasio
+        wineasio \
+        patchance
 ```
 
-### WineASIO Selection
+### Package Explanations
+
+| Package | Purpose |
+|---------|---------|
+| `rtcqs` | Real-time configuration checker for audio optimization |
+| `wineasio` | ASIO-to-JACK driver for Wine, enabling low-latency audio in Windows audio programs |
+| `patchance` | Visual patchbay for PipeWire/JACK, alternative graph editor to qpwgraph |
+
+### WineASIO and Patchance Selection
 
 When prompted to choose a version:
 ```
  1) wineasio  2) wineasio-git
 Enter a number (default=1):
 ```
+and
+```
+ 1) patchance  2) patchance-git  
+Enter a number (default=1): 
+```
 
-**Choose: `1`** (stable version)
+**Choose: `1`** (stable version) for both.
+
 
 A script will display. Simply press:
 1. `q` to exit the script
