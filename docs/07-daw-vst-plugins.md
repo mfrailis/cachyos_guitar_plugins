@@ -206,10 +206,10 @@ The first time you load a bridged plugin:
 
 ## Step 9: Verify Audio Routing
 
-### Check Connections with qpwgraph
+### Check Connections with patchance
 
 ```bash
-qpwgraph
+patchance
 ```
 
 You should see:

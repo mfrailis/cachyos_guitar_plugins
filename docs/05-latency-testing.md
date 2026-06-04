@@ -44,19 +44,19 @@ Signal below threshold...
 
 The tool is now listening for audio and will measure the delay.
 
-## Step 3: Route Audio Using qpwgraph
+## Step 3: Route Audio Using patchance
 
 Open the PipeWire graph visualizer:
 
 ```bash
-qpwgraph
+patchance
 ```
 
 This shows all audio connections as a visual graph.
 
 ### Making the Connections
 
-In qpwgraph:
+In patchance:
 
 1. **Find your audio interface capture ports**:
    - Usually labeled: `<interface_name>:capture_AUX0` or similar
@@ -70,7 +70,7 @@ In qpwgraph:
    - Connect: `jack_iodelay:output` → Interface playback
    - The audio loops back through the measurement tool
 
-![Connections with qpwgraph](resources/jack_delay_connections.png)
+![Connections with patchance](resources/jack_delay_connections.png)
 
 ### Visual Connection Flow
 
@@ -131,7 +131,7 @@ After testing, stop `jack_iodelay`:
 
 Press **Ctrl+C** in the terminal where it's running.
 
-In qpwgraph, the measurement connections should desappear.
+In patchance, the measurement connections should desappear.
 
 
 ## Troubleshooting High Latency
@@ -159,7 +159,7 @@ In qpwgraph, the measurement connections should desappear.
 
 ### No Signal in jack_iodelay
 
-1. **Check qpwgraph connections**
+1. **Check patchance connections**
    - Ensure cables are actually connected (colored lines)
    - Try disconnecting and reconnecting
 

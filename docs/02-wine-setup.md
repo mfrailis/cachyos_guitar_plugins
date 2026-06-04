@@ -34,12 +34,13 @@ The "Emulate a virtual desktop" option may be useful if you have issues with the
 
 Click **OK** to save and close.
 
-## Step 3: Install DXVK (Vulkan Support)
+## Step 3: Install corefonts (essential Microsoft True Type fonts) and DXVK (Vulkan Support)
 
+The corefonts package is needed for proper rendering of menus and dialogs in Windows applications.
 DXVK is essential for the Amplitube and Tonex user interfaces to render properly. It provides Vulkan-based translation of Direct3D calls.
 
 ```bash
-winetricks dxvk
+winetricks corefonts dxvk
 ```
 
 **What this does:**

@@ -8,7 +8,7 @@ Handy command reference for common operations.
 # Full installation (copy & paste)
 sudo pacman -Syu
 sudo pacman -S pipewire-jack jack-example-tools qpwgraph wine-cachyos winetricks
-paru -S rtcqs wineasio
+paru -S rtcqs wineasio patchance
 
 # Initial setup
 sudo ln -s /usr/bin/wine /usr/bin/wine64
@@ -65,7 +65,7 @@ pavucontrol
 pw-cli info 0
 
 # Visual routing
-qpwgraph
+patchance
 ```
 
 ## Latency Testing
@@ -75,7 +75,7 @@ qpwgraph
 jack_iodelay
 
 # Visual routing tool (in parallel)
-qpwgraph
+patchance
 ```
 
 ## IK Multimedia

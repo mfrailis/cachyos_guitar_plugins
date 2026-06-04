@@ -26,7 +26,10 @@ ls ~/Downloads/ik_product_manager_*.zip
 Install through Wine:
 
 ```bash
-wine ~/Downloads/ik_product_manager_1.1.10.zip
+# First unzip the installer
+unzip ~/Dowloads/ik_product_manager_1.1.10.zip -d ~/Downloads/
+# Then run the IK Product Manager installer with wine
+wine "$HOME/Downloads/ProductManager_1_1_10/Install IK Product Manager (v1.1.10).exe"
 ```
 
 Replace `1.1.10` with your actual version number.
@@ -225,7 +228,7 @@ You're now ready to:
 
 ### No Audio Input
 
-1. **Check qpwgraph**: Ensure interface input is connected
+1. **Check patchance**: Ensure interface input is connected
 2. **Verify interface**: `pw-cli list-objects Device`
 3. **Check interface volume**: Physical volume knobs on interface
 4. **Select input in software**: Make sure Amplitube has correct input selected
